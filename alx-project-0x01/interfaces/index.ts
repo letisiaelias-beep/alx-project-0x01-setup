@@ -78,4 +78,6 @@ export interface UserData {
  * IMPORTANT: onSubmit accepts UserData (id optional) — that fixes the
  * "missing id" type error when the modal sends a new user.
  */
-export interface UserM
+export interface UserModalProps {
+onSubmit: (post: UserProps) => void;
+}
