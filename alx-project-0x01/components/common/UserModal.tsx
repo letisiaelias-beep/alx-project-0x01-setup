@@ -1,156 +1,122 @@
 import React, { useState } from "react";
-import { UserModalProps, UserData } from "@/interfaces";
 
-const UserModal: React.FC<UserModalProps> = ({ isOpen, onClose, onSubmit, user }) => {
-  const [form, setForm] = useState<UserData>({
-    name: user?.name || "",
-    email: user?.email || "",
-    username: user?.username || "",
-    phone: user?.phone || "",
-    website: user?.website || "",
-    company: user?.company || { name: "" },
-    address: user?.address || { street: "", city: "", suite: "", zipcode: "", geo: { lat: "", lng: "" } },
+interface UserModalProps {
+  onClose: () => void;
+  onSubmit: (user: any) => void;
+}
+
+interface UserData {
+  name: string;
+  username: string;
+  email: string;
+  address: {
+    street: string;
+    suite: string;
+    city: string;
+    zipcode: string;
+    geo: {
+      lat: string;
+      lng: string;
+    };
+  };
+  phone: string;
+  website: string;
+  company: {
+    name: string;
+    catchPhrase: string;
+    bs: string;
+  };
+}
+
+const UserModal: React.FC<UserModalProps> = ({ onClose, onSubmit }) => {
+  const [user, setUser] = useState<UserData>({
+    name: "",
+    username: "",
+    email: "",
+    address: {
+      street: "",
+      suite: "",
+      city: "",
+      zipcode: "",
+      geo: {
+        lat: "",
+        lng: ""
+      }
+    },
+    phone: "",
+    website: "",
+    company: {
+      name: "",
+      catchPhrase: "",
+      bs: ""
+    }
   });
-
-  if (!isOpen) return null;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (name === "company") {
-      setForm({ ...form, company: {
-        name: value,
-        catchPhrase: "",
-        bs: ""
-      } });
-    } else if (name === "street" || name === "city") {
-      setForm({ ...form, address: { ...form.address, [name]: value } });
-    } else {
-      setForm({ ...form, [name]: value });
-    }
+    setUser((prevUser: UserData) => ({ ...prevUser, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(form);
+    onSubmit(user);
+    onClose();
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 relative">
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-        >
-          ✕
-        </button>
-
-        <h2 className="text-2xl font-bold mb-4">
-          {user ? "User Details" : "Add User"}
-        </h2>
-
-        {user ? (
-          <div className="space-y-2 text-gray-700">
-            <p>
-              <span className="font-semibold">Name:</span> {user.name}
-            </p>
-            <p>
-              <span className="font-semibold">Username:</span> {user.username}
-            </p>
-            <p>
-              <span className="font-semibold">Email:</span> {user.email}
-            </p>
-            <p>
-              <span className="font-semibold">Phone:</span> {user.phone}
-            </p>
-            <p>
-              <span className="font-semibold">Website:</span> {user.website}
-            </p>
-            <p>
-              <span className="font-semibold">Company:</span> {user.company.name}
-            </p>
-            <p>
-              <span className="font-semibold">Address:</span>{" "}
-              {user.address.street}, {user.address.city}
-            </p>
-          </div>
-        ) : (
-          <form className="space-y-4" onSubmit={handleSubmit}>
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
+      <div className="bg-white rounded-lg p-8 shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-4 text-gray-800">Add New User</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium mb-2">Name</label>
             <input
               type="text"
               name="name"
-              placeholder="Name"
-              className="border rounded w-full p-2"
-              value={form.name}
+              value={user.name}
               onChange={handleChange}
-              required
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter user name"
             />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              className="border rounded w-full p-2"
-              value={form.email}
-              onChange={handleChange}
-              required
-            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium mb-2">Username</label>
             <input
               type="text"
               name="username"
-              placeholder="Username"
-              className="border rounded w-full p-2"
-              value={form.username}
+              value={user.username}
               onChange={handleChange}
-              required
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter username"
             />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium mb-2">Email</label>
             <input
-              type="text"
-              name="phone"
-              placeholder="Phone"
-              className="border rounded w-full p-2"
-              value={form.phone}
+              type="email"
+              name="email"
+              value={user.email}
               onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter email"
             />
-            <input
-              type="text"
-              name="website"
-              placeholder="Website"
-              className="border rounded w-full p-2"
-              value={form.website}
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              name="company"
-              placeholder="Company"
-              className="border rounded w-full p-2"
-              value={form.company.name}
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              name="street"
-              placeholder="Street"
-              className="border rounded w-full p-2"
-              value={form.address.street}
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              name="city"
-              placeholder="City"
-              className="border rounded w-full p-2"
-              value={form.address.city}
-              onChange={handleChange}
-            />
+          </div>
+          <div className="flex justify-between items-center">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+            >
+              Cancel
+            </button>
             <button
               type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
             >
-              Save
+              Add User
             </button>
-          </form>
-        )}
+          </div>
+        </form>
       </div>
     </div>
   );

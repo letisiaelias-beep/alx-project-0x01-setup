@@ -10,7 +10,7 @@ const PostModal: React.FC<PostModalProps> = ({ onClose, onSubmit }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setPost((prevPost) => ({ ...prevPost, [name]: value }));
+    setPost((prevPost: PostData) => ({ ...prevPost, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {

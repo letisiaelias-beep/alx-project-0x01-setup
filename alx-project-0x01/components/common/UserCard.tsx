@@ -14,15 +14,19 @@ const UserCard: React.FC<UserProps> = ({
       <h2 className="text-xl font-bold text-gray-800 mb-2">{name}</h2>
       <p className="text-gray-600">{email}</p>
       <p className="text-gray-600">{phone}</p>
-      <p className="text-blue-600 hover:underline">
-        <a href={`http://${website}`} target="_blank" rel="noreferrer">
-          {website}
-        </a>
-      </p>
-      <p className="text-gray-500 mt-2">Company: {company.name}</p>
-      <p className="text-gray-500 text-sm">
-        Address: {address.street}, {address.city}
-      </p>
+      {website && (
+        <p className="text-blue-600 hover:underline">
+          <a href={`http://${website}`} target="_blank" rel="noreferrer">
+            {website}
+          </a>
+        </p>
+      )}
+      {company?.name && <p className="text-gray-500 mt-2">Company: {company.name}</p>}
+      {address?.street && address?.city && (
+        <p className="text-gray-500 text-sm">
+          Address: {address.street}, {address.city}
+        </p>
+      )}
     </div>
   );
 };

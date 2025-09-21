@@ -1,7 +1,21 @@
 import PostCard from "@/components/common/PostCard";
 import PostModal from "@/components/common/PostModal";
 import Header from "@/components/layout/Header";
-import { PostData, PostProps } from "@/interfaces";
+// Define PostData interface locally since it's not exported from "@/interfaces"
+export interface PostData {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
+
+// Define PostProps type here if not exported from "@/interfaces"
+export interface PostProps {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
 import { useState } from "react";
 
 interface PostsPageProps {

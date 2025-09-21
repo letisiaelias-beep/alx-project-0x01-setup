@@ -4,7 +4,6 @@ export interface PostProps {
   title: string;
   body: string;
 }
-
 export interface UserProps {
   id: number;
   name: string;
@@ -29,14 +28,14 @@ export interface UserProps {
   };
 }
 
-export interface PostData {
-  userId: number;
-  id?: number;
+// ...existing code...
+
+export interface PostProps {
+  // Define your properties here
+  id: number;
   title: string;
-  body: string;
+  content: string;
+  // Add other fields as needed
 }
 
-export interface PostModalProps {
-  onClose: () => void;
-  onSubmit: (post: PostData) => void;
-}
+// ...existing code...
