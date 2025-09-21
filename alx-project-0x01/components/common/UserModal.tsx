@@ -1,32 +1,6 @@
+// components/common/UserModal.tsx
 import React, { useState } from "react";
-
-interface UserModalProps {
-  onClose: () => void;
-  onSubmit: (user: any) => void;
-}
-
-interface UserData {
-  name: string;
-  username: string;
-  email: string;
-  address: {
-    street: string;
-    suite: string;
-    city: string;
-    zipcode: string;
-    geo: {
-      lat: string;
-      lng: string;
-    };
-  };
-  phone: string;
-  website: string;
-  company: {
-    name: string;
-    catchPhrase: string;
-    bs: string;
-  };
-}
+import { UserData, UserModalProps } from "@/interfaces";
 
 const UserModal: React.FC<UserModalProps> = ({ onClose, onSubmit }) => {
   const [user, setUser] = useState<UserData>({
@@ -38,80 +12,69 @@ const UserModal: React.FC<UserModalProps> = ({ onClose, onSubmit }) => {
       suite: "",
       city: "",
       zipcode: "",
-      geo: {
-        lat: "",
-        lng: ""
-      }
+      geo: { lat: "", lng: "" },
     },
     phone: "",
     website: "",
-    company: {
-      name: "",
-      catchPhrase: "",
-      bs: ""
-    }
+    company: { name: "", catchPhrase: "", bs: "" },
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUser((prevUser: UserData) => ({ ...prevUser, [name]: value }));
+    setUser((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(user);
+    onSubmit(user); // UserData is passed (id optional)
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white rounded-lg p-8 shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">Add New User</h2>
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-white rounded-lg p-6 shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-4">Add New User</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">Name</label>
-            <input
-              type="text"
-              name="name"
-              value={user.name}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter user name"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">Username</label>
-            <input
-              type="text"
-              name="username"
-              value={user.username}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter username"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={user.email}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter email"
-            />
-          </div>
-          <div className="flex justify-between items-center">
+          <label className="block mb-2 text-sm font-medium">Name</label>
+          <input
+            name="name"
+            value={user.name}
+            onChange={handleChange}
+            className="w-full mb-3 px-3 py-2 border rounded"
+            placeholder="Full name"
+          />
+
+          <label className="block mb-2 text-sm font-medium">Username</label>
+          <input
+            name="username"
+            value={user.username}
+            onChange={handleChange}
+            className="w-full mb-3 px-3 py-2 border rounded"
+            placeholder="Username"
+          />
+
+          <label className="block mb-2 text-sm font-medium">Email</label>
+          <input
+            name="email"
+            type="email"
+            value={user.email}
+            onChange={handleChange}
+            className="w-full mb-4 px-3 py-2 border rounded"
+            placeholder="Email"
+          />
+
+          {/* Simple footer buttons */}
+          <div className="flex justify-between">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+              className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
             >
               Add User
             </button>
