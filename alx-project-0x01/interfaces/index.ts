@@ -1,9 +1,4 @@
-export interface PostProps {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
+// Define the shape of a User
 export interface UserProps {
   id: number;
   name: string;
@@ -28,14 +23,8 @@ export interface UserProps {
   };
 }
 
-// ...existing code...
-
-export interface PostProps {
-  // Define your properties here
-  id: number;
-  title: string;
-  content: string;
-  // Add other fields as needed
+// Props for the User Modal
+export interface UserModalProps {
+  onClose: () => void;
+  onSubmit: (user: UserProps) => void;
 }
-
-// ...existing code...
